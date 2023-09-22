@@ -1,0 +1,31 @@
+name: Weekly Clippy Benchmark
+on:
+  schedule:
+    - cron: '0 0 * * */5'
+
+jobs:
+  build_clippy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Pull & Build Clippy
+        uses: actions/checkout@v4
+        with:
+          repository: 'rust-lang/rust-clippy'
+          path: rust-clippy
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: nightly
+      - run: cd rust-clippy && cargo build --release && cd ..
+      
+      - name: Pull & Build rustc-perf
+        uses: actions/checkout@v4
+        with:
+          repository: 'rust-lang/rustc-perf'
+      
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: nightly
+      - run: cd rustc-perf && cargo build --release && cd ..
+      
+      - name: Run rustc-perf
+        run: rustc-perf/target/release/collector -- bench_local +nightly --profiles Clippy --cargo-clippy rust-clippy/target/release/cargo-clippy
