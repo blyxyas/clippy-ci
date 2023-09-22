@@ -9,7 +9,7 @@ jobs:
     name: $REPO:$BRANCH
     steps:
       - name: Set Environment
-        run: echo "BRANCH=$(echo ${{ github.event.issue.body }} | cut -d ':' -f 2 | cut -d '@' -f 1)" >> $GITHUB_ENV && echo "REPO=$(echo ${{ github.event.issue.body }} | cut -d ':' -f 1)" >> $GITHUB_ENV
+        run: echo "BRANCH=$(echo ${{ github.event.comment.body }} | cut -d ':' -f 2 | cut -d '@' -f 1)" >> $GITHUB_ENV && echo "REPO=$(echo ${{ github.event.comment.body }} | cut -d ':' -f 1)" >> $GITHUB_ENV
       - name: Pull & Build Clippy Fork
         uses: actions/checkout@v4
         with:
