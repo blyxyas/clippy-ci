@@ -1,11 +1,6 @@
 name: Clippy On-Command Benchmarking
 on:
   issue_comment:
-
-env:
-  REPO: echo {{ github.event.issue.body }} | cut -d ":" -f 1
-  BRANCH: echo {{ github.event.issue.body }} | cut -d ":" -f 2 | cut -d "@" -f 1
-
 jobs:
   # For the commands on issues
   issue_commented:
