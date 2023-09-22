@@ -28,4 +28,4 @@ jobs:
       - run: cd rustc-perf && cargo build --release
       
       - name: Run rustc-perf
-        run: pwd && target/release/collector bench_local +nightly --profiles Clippy --clippy ../rust-clippy/target/release/cargo-clippy
+        run: pwd && ls && target/release/collector bench_local +nightly --profiles Clippy --clippy ../rust-clippy/target/release/cargo-clippy
