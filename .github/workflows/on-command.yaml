@@ -2,6 +2,7 @@ name: Clippy On-Command Benchmarking
 on:
   issue_comment:
 
+jobs:
   # For the commands on issues
   issue_commented:
     if: ${{ !github.event.issue.pull_request }}
