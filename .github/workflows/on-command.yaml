@@ -2,19 +2,23 @@ name: Clippy On-Command Benchmarking
 on:
   issue_comment:
 
+env:
+  REPO: echo {{ github.event.issue.body }} | cut -d ":" -f 1
+  BRANCH: echo {{ github.event.issue.body }} | cut -d ":" -f 2 | cut -d "@" -f 1
+
 jobs:
   # For the commands on issues
   issue_commented:
     if: ${{ !github.event.issue.pull_request }}
     runs-on: ubuntu-latest
-    name: '$(echo ${{ github.event.issue.body }} | cut -d "@" -f 1)'
+    name: ${{ env.REPO }}:${{ env.BRANCH }}
     steps:
       - name: Pull & Build Clippy Fork
         uses: actions/checkout@v4
         with:
-          repository: '$(echo {{ github.event.issue.body }} | cut -d ":" -f 1)'
+          repository: ${{ env.REPO }}
           path: rust-clippy
-          ref: '$(echo {{ github.event.issue.body }} | cut -d ":" -f 2 | cut -d "@" -f 1)'
+          ref: ${{ env.BRANCH }}
           # Add the posibility of a body after a '@'
       - uses: actions-rs/toolchain@v1
         with:
