@@ -32,4 +32,5 @@ jobs:
       - run: cd rustc-perf && cargo build --release && cd ..
       
       - name: Run rustc-perf
-        run: find . -maxdepth 2 -type d -ls && rustc-perf/target/release/collector bench_local +nightly --profiles Clippy --clippy rust-clippy/target/release/cargo-clippy
+        run: find . -maxdepth 3 -type d -ls && rustc-perf/target/release/collector bench_local +nightly --profiles Clippy --clippy rust-clippy/target/release/cargo-clippy
+        
