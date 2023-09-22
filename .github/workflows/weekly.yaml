@@ -16,7 +16,7 @@ jobs:
       - uses: actions-rs/toolchain@v1
         with:
           toolchain: nightly
-      - run: cd rust-clippy && cargo build --release && cd ..
+      - run: cd rust-clippy && cargo build --release
       
       - name: Pull & Build rustc-perf
         uses: actions/checkout@v4
