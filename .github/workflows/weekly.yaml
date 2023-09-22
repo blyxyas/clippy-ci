@@ -21,8 +21,9 @@ jobs:
       - name: Pull & Build rustc-perf
         uses: actions/checkout@v4
         with:
-          repository: 'rust-lang/rustc-perf'
+          repository: 'blyxyas/rustc-perf' # Replace this when rustc-perf#1724 gets merged
           path: rustc-perf
+          ref: clippy-timer
 
       - run: cd rustc-perf && cargo build --release && cd ..
       
