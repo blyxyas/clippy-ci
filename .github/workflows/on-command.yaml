@@ -2,16 +2,16 @@ name: Clippy On-Command Benchmarking
 on:
   issue_comment:
 
+env:
+  REPO: echo {{ github.event.issue.body }} | cut -d ":" -f 1
+  BRANCH: echo {{ github.event.issue.body }} | cut -d ":" -f 2 | cut -d "@" -f 1
 
 jobs:
   # For the commands on issues
   issue_commented:
-    env:
-      REPO: echo {{ github.event.issue.body }} | cut -d ":" -f 1
-      BRANCH: echo {{ github.event.issue.body }} | cut -d ":" -f 2 | cut -d "@" -f 1
     if: ${{ !github.event.issue.pull_request }}
     runs-on: ubuntu-latest
-    name: ${{ env.REPO }}:${{ env.BRANCH }}
+    name: $REPO:$BRANCH
     steps:
       - name: Pull & Build Clippy Fork
         uses: actions/checkout@v4
