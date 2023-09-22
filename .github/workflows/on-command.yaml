@@ -7,14 +7,14 @@ jobs:
   issue_commented:
     if: ${{ !github.event.issue.pull_request }}
     runs-on: ubuntu-latest
-    name: '${{ github.event.issue.body }} | cut -d "@" -f 1'
+    name: '$(echo ${{ github.event.issue.body }} | cut -d "@" -f 1)'
     steps:
       - name: Pull & Build Clippy Fork
         uses: actions/checkout@v4
         with:
-          repository: 'echo {{ github.event.issue.body }} | cut -d ":" -f 1'
+          repository: '$(echo {{ github.event.issue.body }} | cut -d ":" -f 1)'
           path: rust-clippy
-          ref: 'echo {{ github.event.issue.body }} | cut -d ":" -f 2 | cut -d "@" -f 1'
+          ref: '$(echo {{ github.event.issue.body }} | cut -d ":" -f 2 | cut -d "@" -f 1)'
           # Add the posibility of a body after a '@'
       - uses: actions-rs/toolchain@v1
         with:
