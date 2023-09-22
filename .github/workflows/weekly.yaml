@@ -3,6 +3,7 @@ on:
   schedule:
     - cron: '0 0 * * */5'
   workflow_dispatch:
+  issue_comment:
 
 jobs:
   build_clippy:
@@ -25,7 +26,7 @@ jobs:
           path: rustc-perf
           ref: clippy-timer
 
-      - run: cd rustc-perf && cargo build --release && cd ..
+      - run: cd rustc-perf && cargo build --release
       
       - name: Run rustc-perf
-        run: rustc-perf/target/release/collector bench_local +nightly --profiles Clippy --clippy rust-clippy/target/release/cargo-clippy
+        run: target/release/collector bench_local +nightly --profiles Clippy --clippy ../rust-clippy/target/release/cargo-clippy

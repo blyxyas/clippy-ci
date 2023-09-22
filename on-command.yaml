@@ -1,0 +1,32 @@
+name: Clippy On-Command Benchmarking
+on:
+  issue_comment:
+
+  # For the commands on issues
+  issue_commented:
+    if: ${{ !github.event.issue.pull_request }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Pull & Build Clippy Fork
+        uses: actions/checkout@v4
+        with:
+          repository: 'echo {{ github.event.issue.body }} | cut -d ":" -f 1'
+          path: rust-clippy
+          ref: 'echo {{ github.event.issue.body }} | cut -d ":" -f 2 | cut -d "@" -f 1'
+          # Add the posibility of a body after a '@'
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: nightly
+      - run: cd rust-clippy && cargo build --release && cd ..
+      
+      - name: Pull & Build rustc-perf
+        uses: actions/checkout@v4
+        with:
+          repository: 'blyxyas/rustc-perf' # Replace this when rustc-perf#1724 gets merged
+          path: rustc-perf
+          ref: clippy-timer
+
+      - run: cd rustc-perf && cargo build --release && cd ..
+      
+      - name: Run rustc-perf
+        run: rustc-perf/target/release/collector bench_local +nightly --profiles Clippy --clippy rust-clippy/target/release/cargo-clippy
